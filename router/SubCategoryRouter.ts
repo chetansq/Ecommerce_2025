@@ -45,8 +45,8 @@ SubCategoryRouter.put("/:subCategory_Id", async (request: Request, response: Res
 // @params : subCategory_id
 // @url : http://127.0.0.1:9499/sub-categorys/67b71c5ec0a8662150da78e2
 
-SubCategoryRouter.delete("/:subCategoryId", async (request: Request, response: Response) => {
-    await SubCategoryController.deleteSubCategory(request, response);
+SubCategoryRouter.put("/delete/:subCategoryId", async (request: Request, response: Response) => {
+    await SubCategoryController.subCategoryStatus(request, response);
 });
 
 export default SubCategoryRouter;

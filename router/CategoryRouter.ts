@@ -51,8 +51,8 @@ CategoryRouter.put("/:categoryId", async (request: Request, response: Response) 
 // @params : categoryId
 // @url : http://127.0.0.1:9499/categorys/67b6ff0f502f706800091aee
 
-CategoryRouter.delete("/:categoryId", async (request: Request, response: Response) => {
-    await CategoryController.deleteCategory(request, response);
+CategoryRouter.put("/delete/:categoryId", async (request: Request, response: Response) => {
+    await CategoryController.categoryStatus(request, response);
 });
 
 export default CategoryRouter;

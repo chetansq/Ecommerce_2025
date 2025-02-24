@@ -6,7 +6,7 @@ export interface EcomSubCategory {
     sub_category_name: string,
     sub_category_description: string,
     sub_category_logo: string,
-    sub_category_isActive: boolean,
+    isActive: boolean,
     createdAt?: Date,
     updatedAt?: Date
 }

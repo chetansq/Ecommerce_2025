@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 
 export const getAllCategory = async (request: Request, response: Response) => {
     try {
-        let categorys: EcomCategory[] | undefined = await CategoryTable.find();
+        let categorys: EcomCategory[] | undefined = await CategoryTable.find({ isActive: true });
 
         if (categorys) {
             return response.status(200).json(categorys)
@@ -111,10 +111,12 @@ export const updateCategory = async (request: Request, response: Response) => {
 // @params : categoryId
 // @url : http://127.0.0.1:9499/categorys/67b6ff0f502f706800091aee
 
-export const deleteCategory = async (request: Request, response: Response) => {
+export const categoryStatus = async (request: Request, response: Response) => {
     let { categoryId } = request.params;
 
-    let theCategory: EcomCategory | null | undefined = await CategoryTable.findByIdAndDelete(categoryId);
+    let theCategory: EcomCategory | null | undefined = await CategoryTable.findByIdAndUpdate(categoryId,
+        { isActive: false },
+        { new: true });
 
     if (!theCategory) {
         return response.status(500).json({

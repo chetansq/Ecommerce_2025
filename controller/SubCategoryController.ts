@@ -10,7 +10,7 @@ import mongoose from "mongoose";
 
 export const getAllSubCategory = async (request: Request, response: Response) => {
     try {
-        let subCategorys: EcomSubCategory[] | undefined = await SubCategoryTable.find();
+        let subCategorys: EcomSubCategory[] | undefined = await SubCategoryTable.find({ isActive: true });
 
         if (subCategorys) {
             return response.status(200).json(subCategorys);
@@ -28,14 +28,14 @@ export const getAllSubCategory = async (request: Request, response: Response) =>
 // @url : http://127.0.0.1:9499/sub-categorys
 
 export const createSubCategory = async (request: Request, response: Response) => {
-    let { category_id, sub_category_name, sub_category_description, sub_category_logo, sub_category_isActive } = request.body;
+    let { category_id, sub_category_name, sub_category_description, sub_category_logo, isActive } = request.body;
 
     let theSubCategory: EcomSubCategory | null | undefined = await new SubCategoryTable({
         category_id: category_id,
         sub_category_name: sub_category_name,
         sub_category_description: sub_category_description,
         sub_category_logo: sub_category_logo,
-        sub_category_isActive: sub_category_isActive
+        isActive: isActive
     }).save();
 
     if (theSubCategory) {
@@ -84,7 +84,7 @@ export const updateSubCategory = async (request: Request, response: Response) =>
     let { subCategory_Id } = request.params;
     // console.log(subCategory_Id);
 
-    let { category_id, sub_category_name, sub_category_description, sub_category_logo, sub_category_isActive } = request.body;
+    let { category_id, sub_category_name, sub_category_description, sub_category_logo, isActive } = request.body;
 
     // console.log(category_id, name, description, logo, isActive);
 
@@ -93,7 +93,7 @@ export const updateSubCategory = async (request: Request, response: Response) =>
         sub_category_name: sub_category_name,
         sub_category_description: sub_category_description,
         sub_category_logo: sub_category_logo,
-        sub_category_isActive: sub_category_isActive
+        isActive: isActive
     });
 
     console.log("theSubCategory", theSubCategory);
@@ -116,7 +116,7 @@ export const updateSubCategory = async (request: Request, response: Response) =>
 // @params : subCategory_id
 // @url : http://127.0.0.1:9499/sub-categorys/67b71c5ec0a8662150da78e2
 
-export const deleteSubCategory = async (request: Request, response: Response) => {
+export const subCategoryStatus = async (request: Request, response: Response) => {
     let { subCategory_id } = request.params;
     // let { isActive } = request.body;
 
@@ -124,7 +124,9 @@ export const deleteSubCategory = async (request: Request, response: Response) =>
     //     isActive = false
     // };
 
-    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndDelete(subCategory_id); // isActive;
+    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndUpdate(subCategory_id,
+        { isActive: false },
+        { new: true }); // isActive;
 
     if (!theSubCategory) {
         return response.status(500).json({
