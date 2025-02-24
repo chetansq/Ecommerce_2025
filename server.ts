@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import CategoryRouter from "./router/CategoryRouter";
 import SubCategoryRouter from "./router/SubCategoryRouter";
+import ProductRouter from "./router/ProductRouter";
+
 dotenv.config({ path: "./.env" });
 
 const hostName: string = "127.0.0.1";
@@ -17,6 +19,7 @@ const app: Application = express();
 app.use(express.json());
 app.use("/categorys", CategoryRouter);
 app.use("/sub-categorys", SubCategoryRouter);
+app.use("/products", ProductRouter);
 
 app.get("/", (request: Request, response: Response) => {
     response.status(200).json({

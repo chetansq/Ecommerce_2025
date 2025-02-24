@@ -28,14 +28,14 @@ export const getAllSubCategory = async (request: Request, response: Response) =>
 // @url : http://127.0.0.1:9499/sub-categorys
 
 export const createSubCategory = async (request: Request, response: Response) => {
-    let { category_id, name, description, logo, isActive } = request.body;
+    let { category_id, sub_category_name, sub_category_description, sub_category_logo, sub_category_isActive } = request.body;
 
     let theSubCategory: EcomSubCategory | null | undefined = await new SubCategoryTable({
         category_id: category_id,
-        name: name,
-        description: description,
-        logo: logo,
-        isActive: isActive
+        sub_category_name: sub_category_name,
+        sub_category_description: sub_category_description,
+        sub_category_logo: sub_category_logo,
+        sub_category_isActive: sub_category_isActive
     }).save();
 
     if (theSubCategory) {
@@ -81,22 +81,22 @@ export const getsubCategoryId = async (request: Request, response: Response) => 
 // @url : http://127.0.0.1:9499/sub-categorys/67b71c5ec0a8662150da78e2
 
 export const updateSubCategory = async (request: Request, response: Response) => {
-    let { subCategory_id } = request.params;
+    let { subCategory_Id } = request.params;
+    // console.log(subCategory_Id);
 
-    let { category_id, name, description, logo, isActive } = request.body;
+    let { category_id, sub_category_name, sub_category_description, sub_category_logo, sub_category_isActive } = request.body;
 
-    let mongoUserID = new mongoose.Types.ObjectId(category_id);
+    // console.log(category_id, name, description, logo, isActive);
 
-    console.log("mongooseId", mongoUserID);
-
-
-    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndUpdate(subCategory_id, {
-        category_id: mongoUserID,
-        name: name,
-        description: description,
-        logo: logo,
-        isActive: isActive
+    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndUpdate(subCategory_Id, {
+        category_id: category_id,
+        sub_category_name: sub_category_name,
+        sub_category_description: sub_category_description,
+        sub_category_logo: sub_category_logo,
+        sub_category_isActive: sub_category_isActive
     });
+
+    console.log("theSubCategory", theSubCategory);
 
     if (!theSubCategory) {
         return response.status(500).json({
@@ -118,8 +118,13 @@ export const updateSubCategory = async (request: Request, response: Response) =>
 
 export const deleteSubCategory = async (request: Request, response: Response) => {
     let { subCategory_id } = request.params;
+    // let { isActive } = request.body;
 
-    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndDelete(subCategory_id);
+    // if (isActive == true) {
+    //     isActive = false
+    // };
+
+    let theSubCategory: EcomSubCategory | null | undefined = await SubCategoryTable.findByIdAndDelete(subCategory_id); // isActive;
 
     if (!theSubCategory) {
         return response.status(500).json({

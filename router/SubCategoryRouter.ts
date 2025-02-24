@@ -35,7 +35,7 @@ SubCategoryRouter.get("/:subCategoryId", async (request: Request, response: Resp
 // @params : subCategory_id, category_id, name, description, logo, isActive
 // @url : http://127.0.0.1:9499/sub-categorys/67b71c5ec0a8662150da78e2
 
-SubCategoryRouter.put("/:subCategoryId", async (request: Request, response: Response) => {
+SubCategoryRouter.put("/:subCategory_Id", async (request: Request, response: Response) => {
     await SubCategoryController.updateSubCategory(request, response);
 });
 
