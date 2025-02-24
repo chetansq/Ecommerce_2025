@@ -46,7 +46,7 @@ ProductRouter.put("/:productId", async (request: Request, response: Response) =>
 // @params : productId
 // @ulr : http://127.0.0.1:9499/Products/67b96b616ab9b925eb14c98c
 
-ProductRouter.put("/:productId", async (request: Request, response: Response) => {
+ProductRouter.put("/delete/:productId", async (request: Request, response: Response) => {
     await ProductController.productStatus(request, response);
 });
 export default ProductRouter;

@@ -11,7 +11,7 @@ import mongoose from "mongoose";
 
 export const getAllProducts = async (request: Request, response: Response) => {
     try {
-        let products: EcomProduct[] | undefined = await ProductTable.find();
+        let products: EcomProduct[] | undefined = await ProductTable.find({ isActive: true });
 
         if (products) {
             return response.status(200).json({
@@ -93,12 +93,12 @@ export const getProductId = async (request: Request, response: Response) => {
 export const updateProduct = async (request: Request, response: Response) => {
     let { productId } = request.params;
 
-    let { subCategory_Id, Product_name, Product_description, Product_brand, Product_image, Product_Images, Product_price, Product_quantity } = request.body;
+    let { subCategory_Id, Product_name, Product_description, Product_brand, Product_image, Product_Images, Product_price, Product_quantity, isActive } = request.body;
 
     let theProducts: EcomProduct | null | undefined = await ProductTable.findByIdAndUpdate(
         productId, {
-        subCategory_Id, Product_name, Product_description, Product_brand, Product_image, Product_Images, Product_price, Product_quantity
-
+        subCategory_Id, Product_name, Product_description, Product_brand, Product_image, Product_Images, Product_price, Product_quantity,
+        isActive
     }, {
         new: true
     });
@@ -117,36 +117,23 @@ export const updateProduct = async (request: Request, response: Response) => {
 
 }
 
-
 // @usage : Delete  Product
-// @method : DELETE
+// @method : PUT
 // @params : productId
 // @ulr : http://127.0.0.1:9499/Products/67b96b616ab9b925eb14c98c
 
 export const productStatus = async (request: Request, response: Response) => {
-    let { ProductId } = request.params;
-    let { isActive } = request.body;
+    let { productId } = request.params;
 
-    console.log("ProductId", ProductId);
+    console.log("ProductId", productId);
 
-    console.log("isActive", isActive);
-
-    if (isActive == true) {
-        isActive = false
-    } else {
-        isActive = true
-    }
-
-    // isActive true hoy to false karvu and getallproduct ma data true hoy tej show thava joi e 
-
-    let theProducts: EcomProduct | null | undefined = await ProductTable.findByIdAndUpdate(ProductId, {
-        isActive: isActive
+    let theProducts: EcomProduct | null | undefined = await ProductTable.findByIdAndUpdate(productId, {
+        isActive: false
     }, {
         new: true
     });
 
     console.log("theProducts", theProducts);
-
 
     if (!theProducts) {
         return response.status(500).json({
