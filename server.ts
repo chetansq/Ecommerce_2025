@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import CategoryRouter from "./router/CategoryRouter";
 import SubCategoryRouter from "./router/SubCategoryRouter";
 import ProductRouter from "./router/ProductRouter";
+import UserRouter from "./router/UserRouter";
 
 dotenv.config({ path: "./.env" });
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/categorys", CategoryRouter);
 app.use("/sub-categorys", SubCategoryRouter);
 app.use("/products", ProductRouter);
+app.use("/users", UserRouter);
 
 app.get("/", (request: Request, response: Response) => {
     response.status(200).json({
